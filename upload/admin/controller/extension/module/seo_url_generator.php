@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Dmytro Sokolenko <sokol1294@gmail.com>
+ * @license GNU General Public License, version 3. See LICENSE
+ */
 class ControllerExtensionModuleSeoUrlGenerator extends Controller {
 	private $error = array();
 
