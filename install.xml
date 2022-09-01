@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>SEO URL Generator</name>
+	<code>opencart-seo-url-generator</code>
+	<version>1.0</version>
+	<author>Dmytro Sokolenko</author>
+	<link>https://github.com/SDG1212</link>
+  <file path="admin/language/en-gb/en_gb.php">
+    <operation>
+      <search trim="true"><![CDATA[
+        // Button
+      ]]></search>
+      <add position="after" trim="true"><![CDATA[
+        $_['button_generate']                    = 'Generate';
+      ]]></add>
+    </operation>
+  </file>
+  <file path="admin/view/template/catalog/category_form.twig">
+    <operation>
+      <search index="0" trim="true"><![CDATA[
+        </tbody>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <button type="button" id="seo-url-generator" class="btn btn-primary">{{ button_generate }}</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+      ]]></add>
+    </operation>
+    <operation>
+      <search trim="true"><![CDATA[
+        <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+      ]]></search>
+      <add position="after"><![CDATA[
+  <script type="text/javascript"><!--
+    // SEO URL Generator
+    $('button[id=\'seo-url-generator\']').on('click', function() {
+      var data = {};
+
+      $.each({{ languages|json_encode() }}, function(code, language) {
+        data[language.language_id] = $('input[name=\'category_description[' + language.language_id + '][name]\']').val();
+      });
+
+      $.ajax({
+        url: 'index.php?route=extension/module/seo_url_generator/generate&user_token={{ user_token }}',
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        success: function(json) {
+          $.each({{ stores|json_encode() }}, function(index, store) {
+            $.each({{ languages|json_encode() }}, function(code, language) {
+              $('input[name=\'category_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
+            });
+          });
+        }
+      });
+    });
+  //--></script>
+      ]]></add>
+    </operation>
+  </file>
+	<file path="admin/view/template/catalog/product_form.twig">
+    <operation>
+      <search index="8" trim="true"><![CDATA[
+        </tbody>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <button type="button" id="seo-url-generator" class="btn btn-primary">{{ button_generate }}</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+      ]]></add>
+    </operation>
+		<operation>
+			<search trim="true"><![CDATA[
+				<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+			]]></search>
+			<add position="after"><![CDATA[
+  <script type="text/javascript"><!--
+    // SEO URL Generator
+    $('button[id=\'seo-url-generator\']').on('click', function() {
+      var data = {};
+
+      $.each({{ languages|json_encode() }}, function(code, language) {
+        data[language.language_id] = $('input[name=\'product_description[' + language.language_id + '][name]\']').val();
+      });
+
+      $.ajax({
+        url: 'index.php?route=extension/module/seo_url_generator/generate&user_token={{ user_token }}',
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        success: function(json) {
+          $.each({{ stores|json_encode() }}, function(index, store) {
+            $.each({{ languages|json_encode() }}, function(code, language) {
+              $('input[name=\'product_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
+            });
+          });
+        }
+      });
+    });
+  //--></script>
+			]]></add>
+		</operation>
+	</file>
+  <file path="admin/view/template/catalog/information_form.twig">
+    <operation>
+      <search index="0" trim="true"><![CDATA[
+        </tbody>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <button type="button" id="seo-url-generator" class="btn btn-primary">{{ button_generate }}</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+      ]]></add>
+    </operation>
+    <operation>
+      <search trim="true"><![CDATA[
+        <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+      ]]></search>
+      <add position="after"><![CDATA[
+  <script type="text/javascript"><!--
+    // SEO URL Generator
+    $('button[id=\'seo-url-generator\']').on('click', function() {
+      var data = {};
+
+      $.each({{ languages|json_encode() }}, function(code, language) {
+        data[language.language_id] = $('input[name=\'information_description[' + language.language_id + '][title]\']').val();
+      });
+
+      $.ajax({
+        url: 'index.php?route=extension/module/seo_url_generator/generate&user_token={{ user_token }}',
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        success: function(json) {
+          $.each({{ stores|json_encode() }}, function(index, store) {
+            $.each({{ languages|json_encode() }}, function(code, language) {
+              $('input[name=\'information_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
+            });
+          });
+        }
+      });
+    });
+  //--></script>
+      ]]></add>
+    </operation>
+  </file>
+  <file path="admin/view/template/catalog/manufacturer_form.twig">
+    <operation>
+      <search index="0" trim="true"><![CDATA[
+        </tbody>
+      ]]></search>
+      <add position="after"><![CDATA[
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <button type="button" id="seo-url-generator" class="btn btn-primary">{{ button_generate }}</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+      ]]></add>
+    </operation>
+    <operation>
+      <search trim="true"><![CDATA[
+        {{ footer }}
+      ]]></search>
+      <add position="before"><![CDATA[
+  <script type="text/javascript"><!--
+    // SEO URL Generator
+    $('button[id=\'seo-url-generator\']').on('click', function() {
+      var data = {};
+
+      $.each({{ languages|json_encode() }}, function(code, language) {
+        data[language.language_id] = $('input[name=\'name\']').val();
+      });
+
+      $.ajax({
+        url: 'index.php?route=extension/module/seo_url_generator/generate&user_token={{ user_token }}',
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        success: function(json) {
+          $.each({{ stores|json_encode() }}, function(index, store) {
+            $.each({{ languages|json_encode() }}, function(code, language) {
+              $('input[name=\'manufacturer_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
+            });
+          });
+        }
+      });
+    });
+  //--></script>
+      ]]></add>
+    </operation>
+  </file>
+</modification>
