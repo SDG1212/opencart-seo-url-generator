@@ -55,6 +55,9 @@
               $('input[name=\'category_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
             });
           });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
       });
     });
@@ -102,6 +105,9 @@
               $('input[name=\'product_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
             });
           });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
       });
     });
@@ -149,6 +155,9 @@
               $('input[name=\'information_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
             });
           });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
       });
     });
@@ -196,6 +205,9 @@
               $('input[name=\'manufacturer_seo_url[' + store.store_id + '][' + language.language_id + ']\']').val(json['result'][language.language_id]);
             });
           });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
       });
     });
