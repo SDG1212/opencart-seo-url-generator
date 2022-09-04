@@ -48,16 +48,20 @@ class ControllerExtensionModuleSeoUrlGenerator extends Controller {
 
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
 
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
 		if (isset($this->request->post['module_seo_url_generator_separator'])) {
 			$data['module_seo_url_generator_separator'] = $this->request->post['module_seo_url_generator_separator'];
 		} else {
 			$data['module_seo_url_generator_separator'] = $this->config->get('module_seo_url_generator_separator');
 		}
 
-		if (isset($this->request->post['module_seo_url_generator_separator'])) {
-			$data['module_seo_url_generator_separator'] = $this->request->post['module_seo_url_generator_separator'];
+		if (isset($this->request->post['module_seo_url_generator_transliteration'])) {
+			$data['module_seo_url_generator_transliterations'] = $this->request->post['module_seo_url_generator_transliteration'];
 		} else {
-			$data['module_seo_url_generator_separator'] = $this->config->get('module_seo_url_generator_separator');
+			$data['module_seo_url_generator_transliterations'] = $this->config->get('module_seo_url_generator_transliteration');
 		}
 
 		if (isset($this->request->post['module_seo_url_generator_status'])) {
@@ -100,7 +104,21 @@ class ControllerExtensionModuleSeoUrlGenerator extends Controller {
 
 		foreach ($this->request->post as $language_id => $name) {
 			// Remove by regex non-alphanumeric letters except spaces. Method html_entity_decode remove quotes.
-			$name = preg_replace("/[^A-Za-z0-9 ]/", '', html_entity_decode($name));
+			$name = preg_replace("/[^\p{L}\p{N}\s]/u", '', html_entity_decode($name));
+
+			$name = mb_strtolower($name, 'UTF-8');
+
+			if (!empty($this->config->get('module_seo_url_generator_transliteration')[$this->config->get('config_language_id')])) {
+				$transliteration_symbols = $this->config->get('module_seo_url_generator_transliteration')[$this->config->get('config_language_id')];
+
+				$replacement_table = array();
+
+				foreach ($transliteration_symbols as $value) {
+					$replacement_table[$value['input']] = $value['output'];
+				}
+
+				$name = str_replace(array_keys($replacement_table), $replacement_table, $name);
+			}
 
 			// Remove dublicate spaces.
 			$name = preg_replace('/\s+/', ' ', $name);
